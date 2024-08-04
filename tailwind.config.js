@@ -8,7 +8,7 @@ export default {
         Super: "url(./assets/GT-Super-Text-Regular-Trial.otf)",
       },
       backgroundImage:{
-        'hero': "url('https://cdn.pixabay.com/photo/2024/05/30/19/37/girl-8799169_1280.jpg')",
+        'hero': "url('https://cdn.pixabay.com/photo/2023/07/31/13/42/anime-art-8161031_1280.png')",
       },
       container: {
         center: true,

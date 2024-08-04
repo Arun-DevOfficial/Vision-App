@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Popover from "./Popover";
 import { MenuIcon } from "lucide-react";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <nav className="flex justify-between items-center container p-5 font-poppins">
@@ -25,7 +27,8 @@ export default function Navbar() {
             Contact
           </li>
           <div className="hidden md:flex gap-6 items-center">
-            <Popover />
+            <button onClick={() => setOpen(!open)}>Sign Up</button>
+            {open && <Popover onClose={() => setOpen(!open)} />}
             <button className="text-white bg-slate-900 hover:bg-slate-800 px-8 py-2 rounded-full cursor-pointer">
               Subscribe
             </button>
