@@ -6,28 +6,28 @@ import { Search } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [searchModel, setSearchModel] = useState(true);
+  const [searchModel, setSearchModel] = useState(false);
   return (
     <>
-      <nav className="flex justify-between items-center container p-5 font-poppins text-white">
+      <nav className="flex justify-between items-center container p-5 font-poppins">
         <div className="md:flex gap-5 items-center">
           <a href="/" className="font-bold text-3xl cursor-pointer">
             Vision
           </a>
           <ul className="hidden md:flex gap-8 items-center">
-            <li className="font-medium cursor-pointer text-sm text-white/40 hover:text-white">
+            <li className="font-medium cursor-pointer text-md">
               Our Story
             </li>
-            <li className="font-medium cursor-pointer text-sm text-white/40 hover:text-white">
+            <li className="font-medium cursor-pointer text-md">
               Write
             </li>
-            <li className="font-medium cursor-pointer text-sm text-white/40 hover:text-white">
+            <li className="font-medium cursor-pointer text-md">
               Gadgets
             </li>
-            <li className="font-medium cursor-pointer text-sm text-white/40 hover:text-white">
+            <li className="font-medium cursor-pointer text-md ">
               Life Style
             </li>
-            <li className="font-medium cursor-pointer text-sm text-white/40 hover:text-white">
+            <li className="font-medium cursor-pointer text-md">
               Contact
             </li>
           </ul>
