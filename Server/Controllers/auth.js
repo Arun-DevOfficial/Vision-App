@@ -210,3 +210,28 @@ export const handleProfilePhotoUpload = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+export const handleRemoveProfilePhoto = async (req, res) => {
+  const { email } = req.user;
+
+  try {
+    // Check if the user exists
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Find the profile associated with the user
+    const existingProfile = await Profile.findOne({ user: existingUser._id });
+    if (!existingProfile) {
+      return res.status(404).json({ error: "Profile not found" });
+    }
+
+    // Delete the profile
+    await Profile.deleteOne({ _id: existingProfile._id });
+
+    res.json({ message: "Profile Image Removed Successfully" });
+  } catch (error) {
+    console.error("Error removing profile photo:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

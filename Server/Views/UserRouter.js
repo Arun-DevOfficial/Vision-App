@@ -6,6 +6,7 @@ import {
   handleForGetPassword,
   handleResetPassword,
   handleProfilePhotoUpload,
+  handleRemoveProfilePhoto,
 } from "../Controllers/auth.js";
 import VerifyUser from "../Middleware/VerifyUser.js";
 import cookieParser from "cookie-parser";
@@ -21,6 +22,7 @@ router.post("/signout", VerifyUser, handleSignOut); // Requires authentication
 router.post("/forgetpassword", handleForGetPassword);
 router.put("/resetpassword/:token", handleResetPassword);
 router.post("/profile/upload", VerifyUser, handleProfilePhotoUpload); // Requires authentication
+router.delete("/profile/remove", VerifyUser, handleRemoveProfilePhoto);
 
 // Export the router using ES6 syntax
 export default router;
