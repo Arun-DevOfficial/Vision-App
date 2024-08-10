@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { generatePasswordResetToken } from "../utils/ResetToken.js";
 import { handleEmailService } from "../utils/Email.js";
 import { verifyPasswordResetToken } from "../utils/ResetToken.js";
+import { Profile } from "../Models/Userprofile.js";
 
 dotenv.config(); //load env file
 export const handleSignUp = async (req, res) => {
@@ -180,6 +181,32 @@ export const handleResetPassword = async (req, res) => {
     res.json({ message: "Password reset successfully." });
   } catch (error) {
     console.error("Error resetting password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const handleProfilePhotoUpload = async (req, res) => {
+  try {
+    // Check if the user exists
+    const existingUser = await User.findOne({ email: req.user.email });
+    if (!existingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Create a new profile with or without an image
+    const newProfile = new Profile({
+      user: existingUser._id,
+      image: req.body.image, // The schema handles default if image is undefined or null
+    });
+
+    // Save the profile
+    await newProfile.save();
+
+    // Respond to the client
+    res.json({ message: "Profile Image Uploaded Successfully" });
+  } catch (error) {
+    // Log the error and respond to the client
+    console.error("Error uploading profile photo:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

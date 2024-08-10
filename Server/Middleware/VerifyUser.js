@@ -4,7 +4,6 @@ import User from "../Models/Users.js";
 const handleVerifyUser = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-
     // Check if token is provided
     if (!token) {
       return res.status(401).json({
