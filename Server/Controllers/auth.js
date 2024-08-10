@@ -1,9 +1,10 @@
 import User from "../Models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import { generatePasswordResetToken } from "../utils/ResetToken.js";
 import { handleEmailService } from "../utils/Email.js";
-import dotenv from "dotenv";
+import { verifyPasswordResetToken } from "../utils/ResetToken.js";
 
 dotenv.config(); //load env file
 export const handleSignUp = async (req, res) => {
@@ -144,4 +145,41 @@ export const handleForGetPassword = async (req, res) => {
   }
 };
 
-export const handleResetPassword = () => {};
+export const handleResetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    // Check if token and password are provided
+    if (!token) {
+      return res.status(400).json({ error: "Token is required!" });
+    }
+
+    if (!password) {
+      return res.status(400).json({ error: "New password is required!" });
+    }
+
+    // Verify the token
+    const user = verifyPasswordResetToken(token); // Token verification should be synchronous in this case
+
+    // Check if the user exists
+    const existingUser = await User.findOne({ email: user.email });
+    if (!existingUser) {
+      return res
+        .status(404)
+        .json({ error: "User not found or token is invalid/expired" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update the user's password
+    existingUser.password = hashedPassword;
+    await existingUser.save();
+
+    res.json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
