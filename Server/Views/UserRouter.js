@@ -14,7 +14,7 @@ router.use(cookieParser());
 router.post("/signup", handleSignUp);
 router.post("/signin", handleSignIn);
 router.post("/signout", VerifyUser, handleSignOut);
-router.post("/forgetpassword", VerifyUser, handleForGetPassword);
+router.post("/forgetpassword", handleForGetPassword);
 router.put("/resetpassword");
 // Export the router using ES6 syntax
 export default router;

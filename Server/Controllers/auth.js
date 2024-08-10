@@ -2,7 +2,10 @@ import User from "../Models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generatePasswordResetToken } from "../utils/ResetToken.js";
+import { handleEmailService } from "../utils/Email.js";
+import dotenv from "dotenv";
 
+dotenv.config(); //load env file
 export const handleSignUp = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -117,18 +120,22 @@ export const handleForGetPassword = async (req, res) => {
     }
 
     // Generate password reset token
-    const token = await generatePasswordResetToken(existingUser.email);
+    const token = generatePasswordResetToken(existingUser.email);
+    const clientUrl = `${process.env.CLIENT_URL}/${token}`;
 
-    //Clear cookie
-    res.clearCookie("token");
+    // Send a mail for reset password
+    const responsemail = await handleEmailService(
+      existingUser.email,
+      clientUrl,
+      existingUser.name
+    );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: false, // Secure should be true in production
-    });
-    // Respond with success and token
-    return res.status(200).json({ message: "Password reset token generated" });
+    // Check if mail was sent successfully
+    if (responsemail) {
+      return res.status(200).json({ message: "Email sent for password reset" });
+    } else {
+      return res.status(500).json({ error: "Failed to send email" });
+    }
   } catch (error) {
     console.error("Error in handleForGetPassword:", error);
     return res
@@ -137,6 +144,4 @@ export const handleForGetPassword = async (req, res) => {
   }
 };
 
-export const handleResetPassword = ()=>{
-  
-}
+export const handleResetPassword = () => {};

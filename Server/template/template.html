@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{subject}}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        color: #ffffff;
+        padding: 10px 20px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        text-align: center;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .content p {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333333;
+      }
+
+      .button-container {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .button {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .footer {
+        background-color: #f4f4f4;
+        color: #888888;
+        padding: 10px 20px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .footer a {
+        color: #000000;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>{{subject}}</h1>
+      </div>
+
+      <div class="content">
+        <p>Hello {{name}},</p>
+
+        <p>
+          You are receiving this email because we received a password reset
+          request for your account.
+        </p>
+
+        <div class="button-container">
+          <a href="{{resetLink}}" class="button" style="color: #f4f4f4;">Reset Password</a>
+        </div>
+
+        <p>This password reset link will expire in 60 minutes.</p>
+        <p>
+          If you did not request a password reset, no further action is
+          required.
+        </p>
+        <p>Regards,</p>
+        <p>The Vision Team</p>
+      </div>
+
+      <div class="footer">
+        <p>&copy; 2024 Vision. All rights reserved.</p>
+        <p>
+          <a href="{{unsubscribeLink}}">Unsubscribe</a> |
+          <a href="{{supportLink}}">Contact Support</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
