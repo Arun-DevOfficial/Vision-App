@@ -1,9 +1,13 @@
-import Slider from "../Components/Slider";
+import Navbar from "../Components/Navbar";
 
 export default function Home() {
   return (
     <>
-      <Slider />
+      <header>
+        <div className="border border-b">
+          <Navbar />
+        </div>
+      </header>
     </>
   );
 }

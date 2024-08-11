@@ -3,58 +3,46 @@ import Popover from "./Popover";
 import { MenuIcon } from "lucide-react";
 import SearchBar from "./SearchBar";
 import { Search } from "lucide-react";
+import Write from "../assets/Write.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [searchModel, setSearchModel] = useState(false);
   return (
     <>
-      <nav className="flex justify-between items-center container p-5 font-poppins">
-        <div className="md:flex gap-5 items-center">
-          <a href="/" className="font-bold text-3xl cursor-pointer">
+      <nav className="flex justify-between items-center container p-5">
+        <div className="md:flex gap-16 items-center">
+          <a href="/" className="font-bold text-3xl cursor-pointer font-title">
             Vision
           </a>
-          <ul className="hidden md:flex gap-8 items-center">
-            <li className="font-medium cursor-pointer text-md">
-              Our Story
-            </li>
-            <li className="font-medium cursor-pointer text-md">
-              Write
-            </li>
-            <li className="font-medium cursor-pointer text-md">
-              Gadgets
-            </li>
-            <li className="font-medium cursor-pointer text-md ">
-              Life Style
-            </li>
-            <li className="font-medium cursor-pointer text-md">
-              Contact
-            </li>
-          </ul>
-        </div>
-
-        <div className="hidden md:flex gap-6 items-center">
-          <button
-            onClick={() => setOpen(!open)}
-            className="text-white font-poppins text-sm"
-          >
-            Sign Up
-          </button>
-          {open && <Popover onClose={() => setOpen(!open)} />}
           <div
-            className="bg-white/20 py-2 px-5 rounded cursor-pointer flex gap-2 items-center"
+            className=" bg-gray-200/50 border border-gray-300 py-3 px-4 w-64 rounded-full cursor-pointer md:flex gap-3 items-center hidden"
             onClick={() => setSearchModel(!searchModel)}
           >
-            <Search size={15} />
-            <p className="text-white/50">Type to Search..</p>
+            <Search size={20} className="text-gray-400" />
+            <p className="text-slate-500">Type to Search..</p>
           </div>
-
           {searchModel && (
             <SearchBar onClose={() => setSearchModel(!searchModel)} />
           )}
         </div>
-        <div className="md:hidden">
-          <MenuIcon className="text-3xl cursor-pointer" />
+        <div className="flex gap-8">
+          <button className="text-slate-500 flex items-center gap-2">
+            <img src={Write} alt="Write" className="w-5" />
+            Write
+          </button>
+          <div className="hidden md:flex items-center">
+            <button
+              onClick={() => setOpen(!open)}
+              className="text-md font-medium bg-slate-900 text-white px-8 py-2 rounded-full"
+            >
+              Sign In
+            </button>
+            {open && <Popover onClose={() => setOpen(!open)} />}
+          </div>
+          <div className="md:hidden">
+            <MenuIcon className="text-3xl cursor-pointer" />
+          </div>
         </div>
       </nav>
     </>
