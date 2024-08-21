@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         poppins: ["Open Sans", "sans-serif"],
         title: ["DM Serif Display", "serif"],
+        Inter : [ "Inter","sans-serif"]
       },
       backgroundImage: {
         hero: "url('https://cdn.pixabay.com/photo/2023/07/31/13/42/anime-art-8161031_1280.png')",

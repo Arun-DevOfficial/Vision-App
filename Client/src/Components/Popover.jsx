@@ -11,7 +11,7 @@ export default function Popover({ onClose }) {
   };
   return (
     <div
-      className="fixed inset-0 flex justify-center items-center z-20"
+      className="fixed inset-0 flex justify-center items-center z-20 bg-[#7a7a7a]/40"
       ref={modelRef}
       onClick={closeModel}
     >
