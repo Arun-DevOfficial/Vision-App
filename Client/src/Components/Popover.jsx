@@ -1,19 +1,25 @@
 import { Button } from "@radix-ui/themes";
 import { X } from "lucide-react";
 import { useRef } from "react";
+import { useEffect } from "react";
+import Aos from "aos";
 
 export default function Popover({ onClose }) {
   const modelRef = useRef();
-
+  useEffect(() => {
+    Aos.init();
+  }, []);
   //reference close model
   const closeModel = (e) => {
     if (modelRef.current === e.target) return onClose();
   };
   return (
     <div
-      className="fixed inset-0 flex justify-center items-center z-20 bg-[#7a7a7a]/40"
+      className="fixed inset-0 min-h-screen flex justify-center items-center bg-[#7a7a7a]/40"
       ref={modelRef}
       onClick={closeModel}
+      data-aos="fade-up"
+      data-aos-duration="3000"
     >
       <div className="relative bg-[#ffffff] p-8 rounded-lg shadow-lg w-full max-w-md">
         <X

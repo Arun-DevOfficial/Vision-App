@@ -4,12 +4,7 @@ export default function Hero() {
   return (
     <>
       <section className="container p-8 flex gap-24 mt-9">
-        <div className="relative">
-          <img
-            src="https://radiustheme.com/demo/wordpress/themes/neeon/wp-content/uploads/2021/12/blog_65-960x520.jpg"
-            alt=""
-            className="w-[52rem] rounded-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
-          />
+        <div className="relative w-[52rem] rounded-xl hover:scale-105 transition-transform duration-300 bg-[url('https://radiustheme.com/demo/wordpress/themes/neeon/wp-content/uploads/2021/12/blog_65-960x520.jpg')] -z-10">
           <div className="absolute bottom-5 left-7 text-white font-Inter">
             <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-neutral-900 text-white border border-white/20 cursor-pointer hover:bg-neutral-800 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white">
               Fashion
@@ -38,7 +33,7 @@ export default function Hero() {
               <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border border-gray-200 bg-white text-gray-800 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white">
                 Technology
               </span>
-              <p className="text-xl py-2 text-black font-medium font-title">
+              <p className="text-xl py-2 text-black font-medium font-title leading-relaxed">
                 African Nation Are Strugling To Save Their Wildlife.
               </p>
               <p className="flex items-center gap-2 text-slate-600">

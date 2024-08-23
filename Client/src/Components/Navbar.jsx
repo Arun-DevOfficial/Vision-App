@@ -15,11 +15,11 @@ export default function Navbar() {
           <a href="/" className="font-bold text-3xl cursor-pointer font-title">
             Vision
           </a>
-          <ul className="flex gap-3 items-center pl-4 font-poppins font-Inter">
-            <li className="font-medium text-slate-600 cursor-pointer">Home</li>
-            <li className="font-medium text-slate-600 cursor-pointer">Creator</li>
-            <li className="font-medium text-slate-600 cursor-pointer">Trending</li>
-            <li className="font-medium text-slate-600 cursor-pointer">Articles</li>
+          <ul className="flex gap-3 items-center pl-4 font-Inter">
+            <li className="font-medium text-sm text-slate-600 cursor-pointer">Home</li>
+            <li className="font-medium text-slate-600 cursor-pointer text-sm">Creator</li>
+            <li className="font-medium text-slate-600 cursor-pointer text-sm">Trending</li>
+            <li className="font-medium text-slate-600 cursor-pointer text-sm">Articles</li>
           </ul>
           {/* <div
             className=" bg-gray-200/50 border border-gray-300 py-3 px-4 w-64 rounded-full cursor-pointer md:flex gap-3 items-center hidden"
