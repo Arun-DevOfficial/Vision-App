@@ -3,7 +3,7 @@ import { Calendar } from "lucide-react";
 export default function Hero() {
   return (
     <>
-      <section className="container p-8 flex gap-24 mt-9">
+      <section className="container p-8 flex gap-24 mt-8">
         <div className="relative w-[52rem] rounded-xl hover:scale-105 transition-transform duration-300 bg-[url('https://radiustheme.com/demo/wordpress/themes/neeon/wp-content/uploads/2021/12/blog_65-960x520.jpg')] -z-10">
           <div className="absolute bottom-5 left-7 text-white font-Inter">
             <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-neutral-900 text-white border border-white/20 cursor-pointer hover:bg-neutral-800 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white">
