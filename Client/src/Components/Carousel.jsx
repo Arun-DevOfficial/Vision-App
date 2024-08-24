@@ -4,7 +4,7 @@ import { Calendar } from "lucide-react";
 
 export default function Carousel() {
   return (
-    <div className="flex justify-center items-center p-10 relative z-10">
+    <div className="hidden md:flex justify-center items-center p-10 relative z-10">
       <div className="container mx-auto px-4">
         <Swiper
           spaceBetween={20} // Space between slides

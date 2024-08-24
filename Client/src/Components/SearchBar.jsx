@@ -26,8 +26,8 @@ export default function SearchBar({ onClose }) {
         ref={modalRef}
         onClick={handleOutsideClick}
       >
-        <div className="self-end p-4 cursor-pointer relative" onClick={onClose}>
-          <X size={50} />
+        <div className="self-end p-2 cursor-pointer relative" onClick={onClose}>
+          <X size={40} />
         </div>
         <div className="text-center my-52 flex flex-col gap-5">
           <p>Search for:</p>

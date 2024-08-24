@@ -1,10 +1,10 @@
 // import React from 'react'
 
-export default function Badge() {
+export default function Badge({ content }) {
   return (
     <>
-      <span className="hs-tab-active:bg-blue-100 hs-tab-active:text-blue-600 dark:hs-tab-active:bg-blue-800 dark:hs-tab-active:text-white ms-1 py-0.5 px-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">
-        99+
+      <span className="text-sm capitalize bg-neutral-800 hover:bg-neutral-900 text-white px-4 rounded-full py-1 cursor-pointer">
+        {content}
       </span>
     </>
   );
