@@ -1,6 +1,6 @@
 // import React from 'react'
 import Badge from "./Badge";
-import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { Facebook } from "lucide-react";
 import { BsTwitterX } from "react-icons/bs";
 import { TiSocialLinkedin } from "react-icons/ti";
 import { LuInstagram } from "react-icons/lu";
@@ -39,7 +39,7 @@ export default function Sidebar() {
           <h2 className="text-2xl font-bold mb-5 font-Inter">
             Recommended topics
           </h2>
-          <div className="grid grid-cols-4 gap-4 text-xs text-center font-title">
+          <div className="grid grid-cols-4 gap-4 text-xs font-title">
             <Badge content={"tech"} />
             <Badge content={"music"} />
             <Badge content={"sports"} />
@@ -65,7 +65,7 @@ export default function Sidebar() {
                     />
                   </div>
                   <div className="ml-4">
-                    <div className="text-xl font-semibold text-gray-900 dark:text-white font-title">
+                    <div className="text-md font-semibold text-gray-900 dark:text-white font-title">
                       {`${profile.displayName}`}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-neutral-300 font-Inter">
@@ -80,7 +80,7 @@ export default function Sidebar() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold mb-5 font-Inter">
+          <h2 className="text-xl font-bold mb-5 font-Inter">
             Stay Connected with Us
           </h2>
           <div className="flex gap-5 items-center">
