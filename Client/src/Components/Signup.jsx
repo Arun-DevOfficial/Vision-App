@@ -2,16 +2,17 @@ import { Button } from "@radix-ui/themes";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple, FaTwitter } from "react-icons/fa";
 
-export default function Login() {
+export default function SignUp() {
   return (
     <div className="flex-shrink-0 w-full max-w-xs">
       <h2 className="text-3xl font-semibold text-center mb-2 font-title">
-        Welcome back
+        Create your account
       </h2>
       <p className="text-center text-gray-600 mb-6">
-        Please enter your details to sign in.
+        Please enter your details to sign up.
       </p>
-      <div className="flex justify-between gap-2 mb-6">
+      {/* Inline Social Sign-Up Buttons */}
+      <div className="flex justify-between gap-2">
         <Button
           variant="solid"
           className="flex items-center justify-center gap-2 w-1/3 py-2 border rounded-md bg-white text-gray-700 shadow hover:bg-gray-100 transition-all duration-200"
@@ -31,13 +32,31 @@ export default function Login() {
           <FaTwitter size={20} />
         </Button>
       </div>
-      <div className="flex items-center mb-6">
+      {/* Divider */}
+      <div className="flex items-center my-3">
         <div className="flex-grow h-px bg-gray-300"></div>
         <span className="px-3 text-sm text-gray-500 capitalize">or</span>
         <div className="flex-grow h-px bg-gray-300"></div>
       </div>
       <form>
-        <div className="mb-6">
+        {/* Name Input */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-semibold mb-2"
+            htmlFor="name"
+          >
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Your Name"
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-800 transition-all duration-200"
+          />
+        </div>
+
+        {/* Email Input */}
+        <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-semibold mb-2"
             htmlFor="email"
@@ -47,11 +66,13 @@ export default function Login() {
           <input
             id="email"
             type="email"
-            placeholder="Email"
-            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 transition-all duration-200"
+            placeholder="Your Email"
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-800 transition-all duration-200"
           />
         </div>
-        <div className="mb-6">
+
+        {/* Password Input */}
+        <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-semibold mb-2"
             htmlFor="password"
@@ -61,36 +82,29 @@ export default function Login() {
           <input
             id="password"
             type="password"
-            placeholder="Password"
-            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-500 transition-all duration-200"
+            placeholder="Your Password"
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-800 transition-all duration-200"
           />
         </div>
-        <div className="mb-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <input type="checkbox" name="Check" id="Check" />
-            <label className="text-sm font-medium text-gray-600" htmlFor="Check">
-              Remember Me
-            </label>
-          </div>
-          <p className="text-slate-800 font-medium cursor-pointer hover:underline">
-            Forgot Password?
-          </p>
-        </div>
-        <div className="flex items-center justify-between">
+
+        {/* Sign-Up Button */}
+        <div className="flex items-center justify-between mb-6">
           <Button
             variant="solid"
             className="w-full text-white bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 cursor-pointer py-3 rounded-full transition-all duration-200"
           >
-            Sign In
+            Sign Up
           </Button>
         </div>
-        <p className="text-center mt-4">
-          Don't have an account?{" "}
-          <span className="text-slate-800 cursor-pointer hover:underline font-bold">
-            Sign Up
-          </span>
-        </p>
       </form>
+
+      {/* Redirect to Sign In */}
+      <p className="text-center mt-4">
+        Already have an account?{" "}
+        <span className="text-slate-800 cursor-pointer hover:underline font-bold">
+          Sign In.
+        </span>
+      </p>
     </div>
   );
 }

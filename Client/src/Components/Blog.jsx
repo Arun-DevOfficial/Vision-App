@@ -11,20 +11,16 @@ export default function Blog() {
     <>
       <section>
         <div className="container mx-auto p-8 min-h-screen pt-36 flex gap-8">
-          {/* Main Blog Content */}
           <div className="w-full">
-            {/* Heading */}
             <h1 className="text-4xl font-bold font-Inter mb-8 text-gray-900">
               Popular Stories
             </h1>
             <div className="w-full max-w-[30%]">
               <Tabs />
             </div>
-            {/* Blog Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {Data?.blogs?.map((blog) => (
                 <div className="bg-white rounded-lg p-6" key={blog.id}>
-                  {/* Author and Profile Image */}
                   <div className="flex items-center gap-4 mb-6">
                     <img
                       src={blog.profileImage}
