@@ -6,7 +6,6 @@ import { ContextMenu } from "../Context/Provider";
 
 export default function Login() {
   const { model, setModel } = useContext(ContextMenu);
-  console.log(model);
 
   return (
     <div className="flex-shrink-0 w-full max-w-xs">
