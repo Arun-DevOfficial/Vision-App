@@ -3,7 +3,7 @@ import { Calendar } from "lucide-react";
 export default function TopStories() {
   return (
     <>
-      <article className="bg-[#faf7f5] py-20">
+      <article className="bg-slate-100/20">
         <div className="container p-4">
           <h2 className="text-3xl font-bold text-neutral-800 font-Inter mb-4">
             Top Stories

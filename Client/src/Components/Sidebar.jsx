@@ -39,7 +39,7 @@ export default function Sidebar() {
           <h2 className="text-2xl font-bold mb-5 font-Inter">
             Recommended topics
           </h2>
-          <div className="grid grid-cols-4 gap-4 text-xs font-title">
+          <div className="grid grid-cols-4 gap-4 text-xs font-Inter">
             <Badge content={"tech"} />
             <Badge content={"music"} />
             <Badge content={"sports"} />
@@ -79,8 +79,8 @@ export default function Sidebar() {
           ))}
         </div>
 
-        <div>
-          <h2 className="text-xl font-bold mb-5 font-Inter">
+        <div className="p-6">
+          <h2 className="text-lg font-bold mb-5 font-Inter">
             Stay Connected with Us
           </h2>
           <div className="flex gap-5 items-center">
