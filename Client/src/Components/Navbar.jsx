@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Popover from "./Popover";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
-import { Search } from "lucide-react";
 import Write from "../assets/Write.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [searchModel, setSearchModel] = useState(false);
+
+  // Popup for Login user
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setOpen(true);
+    }, 3000);
+
+    return () => clearTimeout(timeoutId); // Correctly clear the timeout
+  }, []); // Add an empty dependency array to only run this effect once after initial render
 
   return (
     <>
@@ -56,7 +64,7 @@ export default function Navbar() {
               >
                 Sign In
               </button>
-              {open && <Popover onClose={() => setOpen(!open)} />}
+              {open && <Popover onClose={() => setOpen(false)} />}
             </div>
             <div className="md:hidden flex items-center gap-3">
               <MenuIcon className="text-3xl cursor-pointer" />
