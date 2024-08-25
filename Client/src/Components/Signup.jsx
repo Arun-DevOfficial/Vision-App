@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { Button } from "@radix-ui/themes";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple, FaTwitter } from "react-icons/fa";
+import { ContextMenu } from "../Context/Provider";
 
 export default function SignUp() {
+  const { model, setModel } = useContext(ContextMenu);
   return (
     <div className="flex-shrink-0 w-full max-w-xs">
       <h2 className="text-3xl font-semibold text-center mb-2 font-title">
@@ -101,8 +104,11 @@ export default function SignUp() {
       {/* Redirect to Sign In */}
       <p className="text-center mt-4">
         Already have an account?{" "}
-        <span className="text-slate-800 cursor-pointer hover:underline font-bold">
-          Sign In.
+        <span
+          onClick={() => setModel(!model)}
+          className="text-slate-800 cursor-pointer hover:underline font-bold"
+        >
+          Sign In
         </span>
       </p>
     </div>

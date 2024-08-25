@@ -1,9 +1,13 @@
 import { X } from "lucide-react";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import Login from "./Login";
+import { ContextMenu } from "../Context/Provider";
+import Signup from "./Signup";
 
 export default function Popover({ onClose }) {
   const modelRef = useRef();
+  const { model } = useContext(ContextMenu);
+  //Popup model
   const closeModel = (e) => {
     if (modelRef.current === e.target) return onClose();
   };
@@ -30,7 +34,7 @@ export default function Popover({ onClose }) {
             />
           </div>
           <div className="w-1/2 p-12 flex items-center justify-center">
-            <Login />
+            {!model ? <Login /> : <Signup />}
           </div>
         </div>
       </div>

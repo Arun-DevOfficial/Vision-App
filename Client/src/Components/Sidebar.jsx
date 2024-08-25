@@ -52,7 +52,7 @@ export default function Sidebar() {
           <h2 className="text-2xl font-bold mb-5 font-Inter">Top Profiles</h2>
           {profiles.map((profile, index) => (
             <>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center" key={index}>
                 <div
                   className="flex items-center p-4 dark:bg-neutral-800 mb-4"
                   key={index}

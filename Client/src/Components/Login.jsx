@@ -1,8 +1,13 @@
+import { useContext } from "react";
 import { Button } from "@radix-ui/themes";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple, FaTwitter } from "react-icons/fa";
+import { ContextMenu } from "../Context/Provider";
 
 export default function Login() {
+  const { model, setModel } = useContext(ContextMenu);
+  console.log(model);
+
   return (
     <div className="flex-shrink-0 w-full max-w-xs">
       <h2 className="text-3xl font-semibold text-center mb-2 font-title">
@@ -68,7 +73,10 @@ export default function Login() {
         <div className="mb-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <input type="checkbox" name="Check" id="Check" />
-            <label className="text-sm font-medium text-gray-600" htmlFor="Check">
+            <label
+              className="text-sm font-medium text-gray-600"
+              htmlFor="Check"
+            >
               Remember Me
             </label>
           </div>
@@ -85,8 +93,11 @@ export default function Login() {
           </Button>
         </div>
         <p className="text-center mt-4">
-          Don't have an account?{" "}
-          <span className="text-slate-800 cursor-pointer hover:underline font-bold">
+          Dont have an account?{" "}
+          <span
+            onClick={() => setModel(!model)}
+            className="text-slate-800 cursor-pointer hover:underline font-bold"
+          >
             Sign Up
           </span>
         </p>
