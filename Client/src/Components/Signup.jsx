@@ -3,9 +3,24 @@ import { Button } from "@radix-ui/themes";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple, FaTwitter } from "react-icons/fa";
 import { ContextMenu } from "../Context/Provider";
+import { useQuery } from "@tanstack/react-query";
+import { Register } from "../API/User";
+import { useState } from "react";
 
 export default function SignUp() {
   const { model, setModel } = useContext(ContextMenu);
+  const [User, setUser] = useState({ name: "", email: "", password: "" });
+  const { error, isLoading } = useQuery(["register"], () => Register(User));
+
+  //Error and Loading State
+  if (error) return <h1>There was an error</h1>;
+  if (isLoading) return <h1>Loading..</h1>;
+
+  //Dynamically update fields
+  const handleChange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value });
+    console.log(User);
+  };
   return (
     <div className="flex-shrink-0 w-full max-w-xs">
       <h2 className="text-3xl font-semibold text-center mb-2 font-title">
@@ -55,6 +70,7 @@ export default function SignUp() {
             type="text"
             placeholder="Your Name"
             className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-800 transition-all duration-200"
+            onChange={(e)=>handleChange(e)}
           />
         </div>
 
@@ -69,6 +85,7 @@ export default function SignUp() {
           <input
             id="email"
             type="email"
+            onChange={(e)=>handleChange(e)}
             placeholder="Your Email"
             className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-800 transition-all duration-200"
           />
@@ -84,6 +101,7 @@ export default function SignUp() {
           </label>
           <input
             id="password"
+            onChange={(e)=>handleChange(e)}
             type="password"
             placeholder="Your Password"
             className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-800 transition-all duration-200"

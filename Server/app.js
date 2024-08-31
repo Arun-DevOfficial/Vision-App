@@ -29,7 +29,7 @@ app.use("/api/auth", UsersRouter); // user router for authenticate
 app.listen(PORT, async () => {
   try {
     await connectDB();
-    console.log(`App is running on port ${PORT}...`);
+    console.log(`Server running on port ${PORT}...`);
     console.log("Connected to the database");
   } catch (error) {
     console.error("Failed to connect to the database:", error);

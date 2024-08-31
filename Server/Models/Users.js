@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
+import { configDotenv } from "dotenv";
 
+// Load env file
+configDotenv();
+
+//Schema for user
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -17,6 +22,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Create and export the model
+// export the model
 const User = mongoose.model("users", UserSchema);
 export default User;

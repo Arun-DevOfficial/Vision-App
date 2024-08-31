@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import { generatePasswordResetToken } from "../utils/ResetToken.js";
 import { handleEmailService } from "../utils/Email.js";
 import { verifyPasswordResetToken } from "../utils/ResetToken.js";
-import { Profile } from "../Models/Userprofile.js";
+import Profile from "../Models/Profile.js";
+import { cloudinaryV2 } from "../Config/Cloudinary.js";
 
 dotenv.config(); //load env file
 export const handleSignUp = async (req, res) => {
@@ -193,10 +194,18 @@ export const handleProfilePhotoUpload = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    //Cloudinary Image upload
+    const file = req.file;
+    console.log(file.path);
+
+    const uploadResult = await cloudinaryV2.uploader.upload(file.path, {
+      upload_preset: "profile_photo",
+    });
+
     // Create a new profile with or without an image
     const newProfile = new Profile({
       user: existingUser._id,
-      image: req.body.image, // The schema handles default if image is undefined or null
+      profileImageUrl: uploadResult.secure_url, // The schema handles default if image is undefined or null
     });
 
     // Save the profile
@@ -206,7 +215,6 @@ export const handleProfilePhotoUpload = async (req, res) => {
     res.json({ message: "Profile Image Uploaded Successfully" });
   } catch (error) {
     // Log the error and respond to the client
-    console.error("Error uploading profile photo:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
