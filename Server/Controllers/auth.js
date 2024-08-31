@@ -7,6 +7,8 @@ import { handleEmailService } from "../utils/Email.js";
 import { verifyPasswordResetToken } from "../utils/ResetToken.js";
 import Profile from "../Models/Profile.js";
 import { cloudinaryV2 } from "../Config/Cloudinary.js";
+import { fileURLToPath } from "url";
+import path from "path";
 
 dotenv.config(); //load env file
 export const handleSignUp = async (req, res) => {
@@ -186,6 +188,7 @@ export const handleResetPassword = async (req, res) => {
   }
 };
 
+//Upload User Profile Photo
 export const handleProfilePhotoUpload = async (req, res) => {
   try {
     // Check if the user exists
@@ -194,30 +197,44 @@ export const handleProfilePhotoUpload = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    //Cloudinary Image upload
-    const file = req.file;
-    console.log(file.path);
+    // Get the current file and directory name
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const filepath = path.join(
+      __dirname,
+      "..",
+      "uploads",
+      `${req.file.filename}`
+    );
 
-    const uploadResult = await cloudinaryV2.uploader.upload(file.path, {
-      upload_preset: "profile_photo",
-    });
+    // Cloudinary Image Upload
+    await cloudinaryV2.uploader
+      .upload(filepath)
+      .then(async (result) => {
+        // Add profile image
+        const newProfile = new Profile({
+          user: existingUser._id,
+          profileImageUrl: result.secure_url,
+        });
 
-    // Create a new profile with or without an image
-    const newProfile = new Profile({
-      user: existingUser._id,
-      profileImageUrl: uploadResult.secure_url, // The schema handles default if image is undefined or null
-    });
-
-    // Save the profile
-    await newProfile.save();
+        // Save the profile
+        await newProfile.save();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
     // Respond to the client
-    res.json({ message: "Profile Image Uploaded Successfully" });
+    res.json({
+      message: "Profile Photo Updated Successfully",
+    });
   } catch (error) {
     // Log the error and respond to the client
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+//Remove profile photo from cloudinary
 export const handleRemoveProfilePhoto = async (req, res) => {
   const { email } = req.user;
 

@@ -8,12 +8,12 @@ const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
-    ref: 'users', // Assuming you have a User model to reference
+    ref: "users", // Assuming you have a User model to reference
   },
   profileImageUrl: {
     type: String, // "string" should be `String`
-    default: process.env.DEFAULT_IMAGE_URL,
+    required: true,
   },
 });
 
-export default mongoose.model('profiles', ProfileSchema);
+export default mongoose.model("profiles", ProfileSchema);
