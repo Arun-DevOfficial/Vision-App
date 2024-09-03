@@ -206,7 +206,6 @@ export const handleProfilePhotoUpload = async (req, res) => {
       "uploads",
       `${req.file.filename}`
     );
-
     // Cloudinary Image Upload
     await cloudinaryV2.uploader
       .upload(filepath)
@@ -214,6 +213,7 @@ export const handleProfilePhotoUpload = async (req, res) => {
         // Add profile image
         const newProfile = new Profile({
           user: existingUser._id,
+          publicId: result.public_id,
           profileImageUrl: result.secure_url,
         });
 
@@ -245,10 +245,27 @@ export const handleRemoveProfilePhoto = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Find the profile associated with the user
-    const existingProfile = await Profile.findOne({ user: existingUser._id });
+    // Find the latest profile associated with the user
+    const existingProfile = await Profile.findOne({ user: existingUser._id })
+      .sort({ createdAt: -1 }) // Sorting by createdAt timestamp (assumed)
+      .limit(1);
     if (!existingProfile) {
       return res.status(404).json({ error: "Profile not found" });
+    }
+
+    // Delete the image from Cloudinary
+    if (existingProfile.publicId) {
+      await cloudinaryV2.uploader.destroy(
+        existingProfile.publicId,
+        (error, result) => {
+          if (error) {
+            console.error("Error removing image from Cloudinary:", error);
+            return res
+              .status(500)
+              .json({ error: "Error removing image from Cloudinary" });
+          }
+        }
+      );
     }
 
     // Delete the profile

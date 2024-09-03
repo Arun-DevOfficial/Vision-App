@@ -10,6 +10,10 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
     ref: "users", // Assuming you have a User model to reference
   },
+  publicId: {
+    type: String,
+    require: true,
+  },
   profileImageUrl: {
     type: String, // "string" should be `String`
     required: true,
