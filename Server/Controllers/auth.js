@@ -13,24 +13,23 @@ import path from "path";
 dotenv.config(); //load env file
 export const handleSignUp = async (req, res) => {
   const { name, email, password } = req.body;
-
   try {
     // Check if all fields are provided
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ ErrorMessage: "All fields are required" });
     }
 
     // Check password length
     if (password.length < 8) {
       return res
         .status(400)
-        .json({ message: "Password must be at least 8 characters long" });
+        .json({ ErrorMessage: "Password must be at least 8 characters long" });
     }
 
     // Check if email is already in use
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
+      return res.status(400).json({ ErrorMessage: "Email already in use" });
     }
 
     // Hash the password
@@ -41,10 +40,10 @@ export const handleSignUp = async (req, res) => {
     await user.save();
 
     // Respond with a success message
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ SuccessMessage: "User created successfully" });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ SuccessMessage: "Server error" });
   }
 };
 export const handleSignIn = async (req, res) => {
@@ -53,19 +52,23 @@ export const handleSignIn = async (req, res) => {
   try {
     // Check if all fields are provided
     if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ ErrorMessage: "All fields are required" });
     }
 
     // Check if the user exists
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res.status(400).json({ message: "Invalid email or password!" });
+      return res
+        .status(400)
+        .json({ ErrorMessage: "Invalid email or password!" });
     }
 
     // Compare the provided password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password!" });
+      return res
+        .status(400)
+        .json({ ErrorMessage: "Invalid email or password!" });
     }
 
     // Payload for the JWT
@@ -82,15 +85,17 @@ export const handleSignIn = async (req, res) => {
     // Set the token in a cookie
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "none", // Updated to "strict" for better security
-      secure: false, // Secure should be true in production
+      sameSite: true, // Updated to "strict" for better security
+      Secure: false, // Secure should be true in production
     });
 
     // Respond with success
-    return res.status(200).json({ message: "User logged in successfully" });
+    return res
+      .status(200)
+      .json({ SuccessMessage: "User logged in successfully" });
   } catch (error) {
     console.error("Error during user login:", error);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ SuccessMessage: "Server error" });
   }
 };
 

@@ -21,18 +21,23 @@ export default function Login() {
   };
 
   //To login into account
-  const { isPending } = useMutation({
-    mutationKey: ["login", formData],
-    mutationFn: () => signin(formData),
-    onSuccess: () => {
-      toast.loading("Loading..");
+  const mutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: (formData) => signin(formData),
+    onSuccess: (response) => {
+      toast.success(response.data.SuccessMessage);
       queryClient.invalidateQueries(["login"]);
     },
-    onError: () => {
-      toast.error("There was a an error..");
+    onError: (error) => {
+      toast.error(error?.response?.data?.ErroMmessage);
     },
+    retry: false,
   });
-
+  //Submit the form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate(formData);
+  };
   return (
     <>
       <div className="flex-shrink-0 w-full max-w-xs">
@@ -67,7 +72,7 @@ export default function Login() {
           <span className="px-3 text-sm text-gray-500 capitalize">or</span>
           <div className="flex-grow h-px bg-gray-300"></div>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-semibold mb-2"
@@ -96,6 +101,7 @@ export default function Login() {
               type="password"
               placeholder="Password"
               name="password"
+              autoComplete="false"
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-md focus:outline-none focus:border-slate-500 transition-all duration-200"
             />
@@ -116,7 +122,7 @@ export default function Login() {
           </div>
           <div className="flex items-center justify-between">
             <Button
-              disabled={isPending}
+              disabled={mutation.isPending}
               className="w-full text-white bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 cursor-pointer py-3 rounded-full transition-all duration-200"
             >
               Sign In
