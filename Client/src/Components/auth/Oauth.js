@@ -1,7 +1,8 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../Services/firebase.config";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
+//Google OAuth Provider
 const googleProvider = new GoogleAuthProvider();
 
 export const handleGoogleSignIn = () => {
@@ -10,7 +11,6 @@ export const handleGoogleSignIn = () => {
       // Signed in
       const user = result.user;
       console.log(user);
-      toast.success("Google Sign-In successful!");
     })
     .catch((error) => {
       const errorCode = error.code;
