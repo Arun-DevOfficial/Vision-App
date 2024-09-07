@@ -33,7 +33,6 @@ export const ResetPassword = async (newPassword, token) => {
 // Upload Profile Photo
 export const UpdateProfilePhoto = async (newPhoto) => {
   try {
-    console.log("Uploading new profile photo:", newPhoto); // Debugging purpose
     const response = await axiosInstance.post("/auth/profile/upload", newPhoto);
     return response.data;
   } catch (error) {
@@ -48,7 +47,6 @@ export const UpdateProfilePhoto = async (newPhoto) => {
 // Remove Profile Photo
 export const RemoveProfilePhoto = async () => {
   try {
-    console.log("Removing profile photo"); // Debugging purpose
     const response = await axiosInstance.delete("/auth/profile/remove");
     return response.data;
   } catch (error) {

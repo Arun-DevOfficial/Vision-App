@@ -43,8 +43,8 @@ export default function Blog() {
                   {/* Blog Content */}
                   <p className="text-lg text-justify text-gray-700 leading-relaxed mb-6">
                     {blog.content}
+                    <a href="#" className="ml-2 text-neutral-900 hover:underline">read more..</a>
                   </p>
-                  {/* Interaction Stats */}
                   <div className="flex justify-between items-center text-gray-600 text-sm">
                     <div className="flex gap-6 items-center">
                       <p>{blog.date}</p>
