@@ -4,7 +4,9 @@ import connectDB from "./Config/DB.js";
 import UsersRouter from "./Views/UserRouter.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import blogRouter from "./Views/blogRouter.js";
 
+//Express App Setup
 const app = express();
 config(); // Load environment variables
 
@@ -24,6 +26,7 @@ app.use(
 
 // Routers
 app.use("/api/auth", UsersRouter); // user router for authenticate
+app.use("/api/blog", blogRouter);
 
 // Connect to the database and start the server
 app.listen(PORT, async () => {

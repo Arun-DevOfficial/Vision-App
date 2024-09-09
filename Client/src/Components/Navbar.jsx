@@ -3,6 +3,7 @@ import Popover from "./Popover";
 import { MenuIcon, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import Write from "../assets/Write.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -53,10 +54,13 @@ export default function Navbar() {
             {searchModel && (
               <SearchBar onClose={() => setSearchModel(!searchModel)} />
             )}
-            <button className="text-slate-500 items-center gap-2 font-Inter hidden md:flex">
+            <Link
+              to="/Write"
+              className="text-slate-500 items-center gap-2 font-Inter hidden md:flex"
+            >
               <img src={Write} alt="Write" className="w-5" />
               Write
-            </button>
+            </Link>
             <div className="hidden md:flex items-center">
               <button
                 onClick={() => setOpen(!open)}
