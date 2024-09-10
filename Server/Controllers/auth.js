@@ -18,27 +18,22 @@ export const handleSignUp = async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({ ErrorMessage: "All fields are required" });
     }
-
     // Check password length
     if (password.length < 8) {
       return res
         .status(400)
         .json({ ErrorMessage: "Password must be at least 8 characters long" });
     }
-
     // Check if email is already in use
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ ErrorMessage: "Email already in use" });
     }
-
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create and save the new user
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
-
     // Respond with a success message
     res.status(201).json({ SuccessMessage: "User created successfully" });
   } catch (error) {
@@ -48,13 +43,11 @@ export const handleSignUp = async (req, res) => {
 };
 export const handleSignIn = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     // Check if all fields are provided
     if (!email || !password) {
       return res.status(400).json({ ErrorMessage: "All fields are required" });
     }
-
     // Check if the user exists
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
@@ -62,7 +55,6 @@ export const handleSignIn = async (req, res) => {
         .status(400)
         .json({ ErrorMessage: "Invalid email or password!" });
     }
-
     // Compare the provided password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
@@ -70,25 +62,21 @@ export const handleSignIn = async (req, res) => {
         .status(400)
         .json({ ErrorMessage: "Invalid email or password!" });
     }
-
     // Payload for the JWT
     const payload = {
       name: existingUser.name,
       email: existingUser.email,
     };
-
     // Generate token
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
       expiresIn: "24h", // Token expiration time
     });
-
     // Set the token in a cookie
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: true, // Updated to "strict" for better security
       Secure: false, // Secure should be true in production
     });
-
     // Respond with success
     return res
       .status(200)
@@ -106,7 +94,6 @@ export const handleSignOut = async (req, res) => {
       sameSite: "none",
       secure: false, // Secure should be true in production
     });
-
     return res.status(200).json({ message: "User logged out" });
   } catch (error) {
     console.error("Error during user logout:", error);
@@ -116,7 +103,6 @@ export const handleSignOut = async (req, res) => {
 
 export const handleForGetPassword = async (req, res) => {
   const { email } = req.body;
-
   try {
     // Check if email is provided
     if (!email) {
@@ -139,7 +125,6 @@ export const handleForGetPassword = async (req, res) => {
       clientUrl,
       existingUser.name
     );
-
     // Check if mail was sent successfully
     if (responsemail) {
       return res.status(200).json({ message: "Email sent for password reset" });
@@ -163,14 +148,11 @@ export const handleResetPassword = async (req, res) => {
     if (!token) {
       return res.status(400).json({ error: "Token is required!" });
     }
-
     if (!password) {
       return res.status(400).json({ error: "New password is required!" });
     }
-
     // Verify the token
     const user = verifyPasswordResetToken(token); // Token verification should be synchronous in this case
-
     // Check if the user exists
     const existingUser = await User.findOne({ email: user.email });
     if (!existingUser) {
@@ -178,14 +160,11 @@ export const handleResetPassword = async (req, res) => {
         .status(404)
         .json({ error: "User not found or token is invalid/expired" });
     }
-
     // Hash the new password
     const hashedPassword = await bcrypt.hash(password, 10);
-
     // Update the user's password
     existingUser.password = hashedPassword;
     await existingUser.save();
-
     res.json({ message: "Password reset successfully." });
   } catch (error) {
     console.error("Error resetting password:", error);
@@ -201,7 +180,6 @@ export const handleProfilePhotoUpload = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ error: "User not found" });
     }
-
     // Get the current file and directory name
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
@@ -221,14 +199,12 @@ export const handleProfilePhotoUpload = async (req, res) => {
           publicId: result.public_id,
           profileImageUrl: result.secure_url,
         });
-
         // Save the profile
         await newProfile.save();
       })
       .catch((err) => {
         console.error(err);
       });
-
     // Respond to the client
     res.json({
       message: "Profile Photo Updated Successfully",
@@ -238,18 +214,15 @@ export const handleProfilePhotoUpload = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 //Remove profile photo from cloudinary
 export const handleRemoveProfilePhoto = async (req, res) => {
   const { email } = req.user;
-
   try {
     // Check if the user exists
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
       return res.status(404).json({ error: "User not found" });
     }
-
     // Find the latest profile associated with the user
     const existingProfile = await Profile.findOne({ user: existingUser._id })
       .sort({ createdAt: -1 }) // Sorting by createdAt timestamp (assumed)
@@ -257,7 +230,6 @@ export const handleRemoveProfilePhoto = async (req, res) => {
     if (!existingProfile) {
       return res.status(404).json({ error: "Profile not found" });
     }
-
     // Delete the image from Cloudinary
     if (existingProfile.publicId) {
       await cloudinaryV2.uploader.destroy(
@@ -272,10 +244,8 @@ export const handleRemoveProfilePhoto = async (req, res) => {
         }
       );
     }
-
     // Delete the profile
     await Profile.deleteOne({ _id: existingProfile._id });
-
     res.json({ message: "Profile Image Removed Successfully" });
   } catch (error) {
     console.error("Error removing profile photo:", error);
