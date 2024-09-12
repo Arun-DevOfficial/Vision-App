@@ -6,6 +6,6 @@ import { handleBannerUpload } from "../Controllers/blog.js";
 const router = express.Router();
 
 //Blog Routes
-router.post("/get-upload-url", upload.single("image"), handleBannerUpload);
+router.post("/banner/upload", upload.single("image"), handleBannerUpload);
 
 export default router;
