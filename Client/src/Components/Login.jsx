@@ -3,7 +3,7 @@ import { Button } from "@radix-ui/themes";
 import { FcGoogle } from "react-icons/fc";
 import { ContextMenu } from "../Context/Provider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signin } from "../Services/User";
+import { signin } from "../Services/API";
 import toast, { Toaster } from "react-hot-toast";
 import { handleGoogleSignIn } from "./auth/Oauth";
 

@@ -4,7 +4,7 @@ export const CloudinaryV2 = () => {
   // Create a Cloudinary instance and set your cloud name.
   const cld = new Cloudinary({
     cloud: {
-      cloudName: "demo",
+      cloudName: "drdjybjuh",
     },
   });
   return cld;

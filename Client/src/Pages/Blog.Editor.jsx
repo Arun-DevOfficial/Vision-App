@@ -1,14 +1,42 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import DefaultBanner from "../assets/DefaultBanner.png";
+import { useMutation } from "@tanstack/react-query";
+import { handleBlogBannerUpload } from "../Services/API";
+
 export default function BlogEditor() {
   const blogBannerRef = useRef();
+  const [file, setFile] = useState(null); // Hold the selected file
 
-  const handleBannerUpload = () => {
-    // const img = e.target.file[0];
-    const img =
-      "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=600&quality=80";
+  // API CALLS
+  const mutation = useMutation({
+    mutationFn: (newFormData) => handleBlogBannerUpload(newFormData),
+    onSuccess: (response) => {
+      setFile(response.url);
+    },
+    onError: (error) => {
+      console.log("Error during upload:", error.message);
+    },
+  });
 
-    if (!img) return (blogBannerRef.current.src = img);
+  //Setup Upload image to Cloudinary
+  const handleBannerUpload = (e) => {
+    const img = e.target.files[0]; // Get the first file
+    console.log("File selected: ", img);
+    //Check image
+    if (img) {
+      const formData = new FormData();
+      formData.append("file", img);
+      formData.append("folder", "content image");
+      formData.append(
+        "upload_preset",
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+      ); // Upload preset
+      formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY); // CLOUDINARY_API_KEY
+      console.log(formData);
+
+      // Call the mutation to upload the file
+      mutation.mutate(formData);
+    }
   };
 
   return (
@@ -34,7 +62,7 @@ export default function BlogEditor() {
             <label htmlFor="uploadBanner">
               <img
                 ref={blogBannerRef}
-                src={DefaultBanner}
+                src={file ? file : DefaultBanner} // Display uploaded image preview
                 alt="Blog"
                 className="z-20 bg-cover cursor-pointer bg-center"
               />

@@ -1,4 +1,7 @@
+import axios from "axios";
 import axiosInstance from "../utils/Instance";
+
+// USER API CALLS
 
 // To create an account
 export const Register = async (newUser) => {
@@ -56,4 +59,17 @@ export const RemoveProfilePhoto = async () => {
     );
     throw error;
   }
+};
+
+//BLOG API CALLS
+
+// Upload Blog Banner
+export const handleBlogBannerUpload = async (newFormData) => {
+  console.log(newFormData);
+  const response = await axios.post(
+    import.meta.env.VITE_CLOUDINARY_BASE_URL, // Cloudinary upload URL from env
+    newFormData
+  );
+  console.log(response.data);
+  return response.data;
 };
