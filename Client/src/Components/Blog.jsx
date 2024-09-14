@@ -25,16 +25,23 @@ export default function Blog() {
                     <img
                       src={blog.profileImage}
                       alt={blog.author}
-                      className="w-12 h-12 rounded-full object-cover"
+                      className="w-8 h-8 rounded-full object-cover"
                     />
                     <div>
-                      <p className="text-lg font-semibold text-gray-800">
+                      <p className="text-sm font-semibold text-gray-800">
                         {blog.author}
                       </p>
                       <p className="text-sm text-gray-500">
                         {blog.displayName}
                       </p>
                     </div>
+                  </div>
+                  <div className="w-full h-40 mb-4 overflow-hidden rounded">
+                    <img
+                      src={blog.bannerImage}
+                      alt={blog.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   {/* Blog Title */}
                   <h2 className="text-2xl lg:text-xl font-extrabold text-gray-900 mb-4">
@@ -43,7 +50,12 @@ export default function Blog() {
                   {/* Blog Content */}
                   <p className="text-lg text-justify text-gray-700 leading-relaxed mb-6">
                     {blog.content}
-                    <a href="#" className="ml-2 text-neutral-900 hover:underline">read more..</a>
+                    <a
+                      href="#"
+                      className="ml-2 text-neutral-900 hover:underline"
+                    >
+                      read more..
+                    </a>
                   </p>
                   <div className="flex justify-between items-center text-gray-600 text-sm">
                     <div className="flex gap-6 items-center">
@@ -67,7 +79,7 @@ export default function Blog() {
               ))}
             </div>
             <div className="my-24 flex justify-center">
-              <button className="bg-white flex gap-2 items-end hover:bg-neutral-900 text-neutral-900 hover:text-white font-Inter font-semibold px-7 py-2 rounded-full border border-slate-200 shadow">
+              <button className="bg-white flex gap-2 items-end hover:bg-neutral-900 text-neutral-900 hover:text-white font-Inter font-semibold px-7 py-2 rounded-full border border-slate-200">
                 Load More
               </button>
             </div>

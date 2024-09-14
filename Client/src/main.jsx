@@ -10,11 +10,9 @@ import router from "./Router/Router";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider>
-        <RouterProvider router={router} />
-      </Provider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <Provider>
+      <RouterProvider router={router} />
+    </Provider>
+  </QueryClientProvider>
 );
