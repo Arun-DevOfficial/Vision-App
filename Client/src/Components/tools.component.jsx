@@ -13,7 +13,7 @@ import InlineCode from "@editorjs/inline-code";
 import Marker from "@editorjs/marker";
 import Header from "@editorjs/header";
 
-// Function to upload image by URL
+// to setup upload image by URL
 const uploadImageByUrl = (e) => {
   return new Promise((resolve, reject) => {
     try {
@@ -28,7 +28,27 @@ const uploadImageByUrl = (e) => {
     };
   });
 };
-console.log(uploadImageByUrl);
+
+// to setup upload image by file
+const uploadImageByFile = (e) => {
+  let link = new Promise((resolve, reject) => {
+    try {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve({
+          success: 1,
+          file: { url: reader.result },
+        });
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      reject(error);
+    }
+  });
+  console.log(link);
+  return link;
+};
 
 // Editor.js tools configuration
 export const tools = {
@@ -42,6 +62,7 @@ export const tools = {
     config: {
       uploader: {
         uploadByUrl: uploadImageByUrl,
+        uploadByFile: uploadImageByFile,
       },
     },
   },

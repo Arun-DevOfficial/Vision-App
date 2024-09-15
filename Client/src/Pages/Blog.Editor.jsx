@@ -8,40 +8,38 @@ import EditorJS from "@editorjs/editorjs";
 import { tools } from "../Components/tools.component";
 
 export default function BlogEditor() {
-  // const [file, setFile] = useState(null); // Hold the selected file
   const {
     blog: { title, banner, content, tags, desc },
     setBlog,
+    textEditor,
+    setTextEditor,
   } = useContext(ContextMenu);
 
-  //useEffect
   useEffect(() => {
-    let editor = new EditorJS({
-      holderId: "text-Editor",
-      data: "",
-      tools: tools,
-      placeholder: "Let's write an awesome story",
-    });
-  }, []);
-  // API CALLS
+    setTextEditor(
+      new EditorJS({
+        holderId: "text-Editor",
+        data: "",
+        tools: tools,
+        placeholder: "Let's write an awesome story",
+      })
+    );
+  }, [setTextEditor]);
+
   const mutation = useMutation({
     mutationFn: (newFormData) => handleBlogBannerUpload(newFormData),
     onSuccess: (response) => {
-      // setFile(response.url);
       setBlog((prevBlog) => ({ ...prevBlog, banner: response.url }));
-      toast.success("Upload Sucess..😊");
+      toast.success("Upload Successful 😊");
     },
     onError: (error) => {
-      console.log("Error during upload:", error.message);
+      console.error("Error during upload:", error.message);
       toast.error("Upload Failed! 😔");
     },
   });
 
-  //Setup Upload image to Cloudinary
   const handleBannerUpload = (e) => {
-    const img = e.target.files[0]; // Get the first file
-    console.log("File selected: ", img);
-    //Check image
+    const img = e.target.files[0];
     if (img) {
       const formData = new FormData();
       formData.append("file", img);
@@ -49,16 +47,14 @@ export default function BlogEditor() {
       formData.append(
         "upload_preset",
         import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-      ); // Upload preset
-      formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY); // CLOUDINARY_API_KEY
-      // Call the mutation to upload the file
+      );
+      formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
       mutation.mutate(formData);
     }
   };
 
-  //Handle Key Action
   const handleTitleKeyDown = (e) => {
-    if (e.keycode == 13) {
+    if (e.keyCode === 13) {
       e.preventDefault();
     }
   };
@@ -66,29 +62,55 @@ export default function BlogEditor() {
   const handleTitleChange = (e) => {
     let input = e.target;
     input.style.height = "auto";
-    input.style.height = input.scrollHeight + "px";
-    //Updata blog context
+    input.style.height = `${input.scrollHeight}px`;
     setBlog((prevBlog) => ({ ...prevBlog, title: e.target.value }));
   };
 
   const handleBlogBannerError = (e) => {
-    let img = e.target;
-    img.src = DefaultBanner;
+    e.target.src = DefaultBanner;
   };
+
+  const handlePublishEvent = () => {
+    // if (!banner) return toast.error("Upload a blog banner to publish.");
+    // if (!title) return toast.error("Please provide a blog title.");
+
+    if (textEditor.isReady) {
+      textEditor
+        .save()
+        .then((data) => {
+          // Validate the data
+          if (!data || !Array.isArray(data.blocks)) {
+            toast.error("Invalid data format.");
+            console.error("Invalid data:", data);
+            return;
+          }
+
+          console.log("Published blog data:", data);
+          // Continue with your publish logic
+        })
+        .catch((error) => {
+          toast.error("Failed to save blog content.");
+          console.error("Error saving data:", error);
+        });
+    }
+  };
+
   return (
     <>
-      {/* Blog Navbar */}
       <nav className="p-5 flex justify-between font-poppins">
         <div className="flex items-center gap-4">
           <a href="/" className="font-bold text-3xl cursor-pointer font-title">
             Vision
           </a>
-          <p className="font-medium max-md::hidden text-black line-clamp-1 w-full">
+          <p className="font-medium max-md:hidden text-black line-clamp-1 w-full">
             New Blog
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="bg-black rounded-full font-medium text-white px-5 py-2">
+          <button
+            onClick={handlePublishEvent}
+            className="bg-black rounded-full font-medium text-white px-5 py-2"
+          >
             Publish
           </button>
           <button className="bg-[#ededed] font-medium rounded-full px-5 py-2">
@@ -96,15 +118,12 @@ export default function BlogEditor() {
           </button>
         </div>
       </nav>
-      {/* Blog Editor */}
       <section>
         <div className="w-full max-w-[900px] mx-auto p-4">
-          {/* Blog Banner */}
           <div className="relative aspect-video hover:opacity-80 border-4 bg-white border-grey">
             <label htmlFor="uploadBanner">
               <img
-                // src={file ? file : DefaultBanner} // Display uploaded image preview
-                src={banner}
+                src={banner || DefaultBanner}
                 alt="Blog"
                 onError={handleBlogBannerError}
                 className="z-20 bg-cover cursor-pointer bg-center"
@@ -118,13 +137,13 @@ export default function BlogEditor() {
               />
             </label>
           </div>
-          {/* Blog Title */}
           <textarea
             placeholder="Blog Title"
-            className="text-4xl font-medium w-full h-20 outline-none resize-none mt-10 leading-tight placeholder:opacity-40 font-poppins"
+            className="text-4xl font-bold w-full h-20 outline-none resize-none mt-10 leading-tight placeholder:opacity-40 font-poppins"
             onKeyDown={handleTitleKeyDown}
             onChange={handleTitleChange}
-          ></textarea>
+            value={title}
+          />
           <hr className="w-full opacity-40 mb-5" />
           <div id="text-Editor" className="font-gelasio"></div>
         </div>
