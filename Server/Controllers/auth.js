@@ -198,7 +198,7 @@ export const handleProfilePhotoUpload = async (req, res) => {
           user: existingUser._id,
           publicId: result.public_id,
           profileImageUrl: result.secure_url,
-        });
+        }); 
         // Save the profile
         await newProfile.save();
       })

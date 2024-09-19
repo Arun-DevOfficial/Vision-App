@@ -15,7 +15,6 @@ export default function Provider({ children }) {
   const [model, setModel] = useState(false);
   const [blog, setBlog] = useState(blogStructure);
   const [textEditor, setTextEditor] = useState({ isReady: false });
-
   return (
     <ContextMenu.Provider
       value={{ model, setModel, blog, setBlog, textEditor, setTextEditor }}

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import DefaultBanner from "../assets/DefaultBanner.png";
 import { useMutation } from "@tanstack/react-query";
 import { handleBlogBannerUpload } from "../Services/API";
@@ -9,35 +9,46 @@ import { tools } from "../Components/tools.component";
 
 export default function BlogEditor() {
   const {
-    blog: { title, banner, content, tags, desc },
+    blog: { title, banner, content },
     setBlog,
     textEditor,
     setTextEditor,
   } = useContext(ContextMenu);
 
+  // EditorJS instance setup and cleanup
   useEffect(() => {
-    setTextEditor(
-      new EditorJS({
-        holderId: "text-Editor",
-        data: "",
-        tools: tools,
-        placeholder: "Let's write an awesome story",
-      })
-    );
-  }, [setTextEditor]);
+    const editor = new EditorJS({
+      holderId: "text-Editor",
+      data: content,
+      tools: tools,
+      placeholder: "Let's write an awesome story",
+    });
 
+    setTextEditor(editor);
+
+    return () => {
+      if (editor && editor.destroy) {
+        editor.destroy(); // Cleanup on unmount
+      }
+    };
+  }, [setTextEditor, content]);
+
+  // Mutation for banner image upload
   const mutation = useMutation({
     mutationFn: (newFormData) => handleBlogBannerUpload(newFormData),
     onSuccess: (response) => {
+      toast.dismiss(); // Dismiss the loading toast
       setBlog((prevBlog) => ({ ...prevBlog, banner: response.url }));
       toast.success("Upload Successful 😊");
     },
     onError: (error) => {
+      toast.dismiss(); // Dismiss the loading toast
       console.error("Error during upload:", error.message);
       toast.error("Upload Failed! 😔");
     },
   });
 
+  // Handle banner upload
   const handleBannerUpload = (e) => {
     const img = e.target.files[0];
     if (img) {
@@ -49,44 +60,52 @@ export default function BlogEditor() {
         import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
       );
       formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
-      mutation.mutate(formData);
+
+      // Display loading toast
+      const toastId = toast.loading("Uploading banner...");
+
+      mutation.mutate(formData, {
+        onSettled: () => {
+          toast.dismiss(toastId); // Dismiss toast once the mutation is settled
+        },
+      });
     }
   };
 
-  const handleTitleKeyDown = (e) => {
+  const handleTitleKeyDown = useCallback((e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
     }
-  };
-
-  const handleTitleChange = (e) => {
-    let input = e.target;
-    input.style.height = "auto";
-    input.style.height = `${input.scrollHeight}px`;
-    setBlog((prevBlog) => ({ ...prevBlog, title: e.target.value }));
-  };
-
-  const handleBlogBannerError = (e) => {
+  }, []);
+  //Dynamically update blog title height
+  const handleTitleChange = useCallback(
+    (e) => {
+      const input = e.target;
+      input.style.height = "auto";
+      input.style.height = `${input.scrollHeight}px`;
+      setBlog((prevBlog) => ({ ...prevBlog, title: e.target.value }));
+    },
+    [setBlog]
+  );
+  //To handle banner upload error
+  const handleBlogBannerError = useCallback((e) => {
     e.target.src = DefaultBanner;
-  };
+  }, []);
 
+  //Publish blog content
   const handlePublishEvent = () => {
-    // if (!banner) return toast.error("Upload a blog banner to publish.");
-    // if (!title) return toast.error("Please provide a blog title.");
+    if (!banner) return toast.error("Upload a blog banner to publish.");
+    if (!title) return toast.error("Please provide a blog title.");
 
-    if (textEditor.isReady) {
+    if (textEditor && textEditor.isReady) {
       textEditor
         .save()
         .then((data) => {
-          // Validate the data
           if (!data || !Array.isArray(data.blocks)) {
             toast.error("Invalid data format.");
-            console.error("Invalid data:", data);
             return;
           }
-
           console.log("Published blog data:", data);
-          // Continue with your publish logic
         })
         .catch((error) => {
           toast.error("Failed to save blog content.");
@@ -120,7 +139,7 @@ export default function BlogEditor() {
               <label htmlFor="uploadBanner">
                 <img
                   src={banner || DefaultBanner}
-                  alt="Blog"
+                  alt="Blog Banner"
                   onError={handleBlogBannerError}
                   className="z-20 bg-cover cursor-pointer bg-center"
                 />
