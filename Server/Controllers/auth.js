@@ -198,12 +198,15 @@ export const handleProfilePhotoUpload = async (req, res) => {
           user: existingUser._id,
           publicId: result.public_id,
           profileImageUrl: result.secure_url,
-        }); 
+        });
+        console.log(result.secure_url);
         // Save the profile
         await newProfile.save();
       })
       .catch((err) => {
-        console.error(err);
+        res
+          .status(500)
+          .json({ ErrorMessage: "Error during upload to cloudinary..." });
       });
     // Respond to the client
     res.json({
