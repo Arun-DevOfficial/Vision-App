@@ -42,7 +42,7 @@ export const handleEmailService = async (to, resetLink, recipients) => {
         email: process.env.FROM_EMAIL,
       },
       to,
-      subject: "Forget Password",
+      subject: "Password Recovery Request",
       html: htmlToSend,
     });
 
