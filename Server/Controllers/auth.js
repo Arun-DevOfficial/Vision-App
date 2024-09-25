@@ -74,7 +74,7 @@ export const handleSignIn = async (req, res) => {
     // Set the token in a cookie
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: true, // Updated to "strict" for better security
+      sameSite: strict, // Updated to "strict" for better security
       Secure: false, // Secure should be true in production
     });
     // Respond with success

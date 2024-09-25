@@ -10,6 +10,7 @@ import { tools } from "../Components/tools.component";
 export default function BlogEditor() {
   const {
     blog: { title, banner, content },
+    blog,
     setBlog,
     textEditor,
     setTextEditor,
@@ -55,11 +56,11 @@ export default function BlogEditor() {
       const formData = new FormData();
       formData.append("file", img);
       formData.append("folder", "content image");
+      formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
       formData.append(
         "upload_preset",
         import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
       );
-      formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
 
       // Display loading toast
       const toastId = toast.loading("Uploading banner...");
@@ -94,16 +95,19 @@ export default function BlogEditor() {
 
   //Publish blog content
   const handlePublishEvent = () => {
-    if (!banner) return toast.error("Upload a blog banner to publish.");
+    if (!banner) return toast.error("Upload a blog banner to publish it.");
     if (!title) return toast.error("Please provide a blog title.");
 
     if (textEditor && textEditor.isReady) {
       textEditor
         .save()
         .then((data) => {
-          if (!data || !Array.isArray(data.blocks)) {
-            toast.error("Invalid data format.");
-            return;
+          if (data.blocks.length) {
+            setBlog({ ...blog, content: data });
+          } else {
+            return toast.error(
+              "Write something in your blog before publish it."
+            );
           }
           console.log("Published blog data:", data);
         })
@@ -138,7 +142,7 @@ export default function BlogEditor() {
             <div className="relative aspect-video hover:opacity-80 border-4 bg-white border-grey">
               <label htmlFor="uploadBanner">
                 <img
-                  src={banner || DefaultBanner}
+                  src={banner}
                   alt="Blog Banner"
                   onError={handleBlogBannerError}
                   className="z-20 bg-cover cursor-pointer bg-center"
