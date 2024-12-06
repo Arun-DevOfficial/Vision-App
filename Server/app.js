@@ -24,10 +24,13 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // Routers
 app.use("/api/auth", UsersRouter); // user router for authenticate
 app.use("/api/blog", blogRouter);
-
 
 // Connect to the database and start the server
 app.listen(PORT, async () => {
